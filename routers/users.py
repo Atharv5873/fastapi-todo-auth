@@ -7,6 +7,7 @@ from database import SessionLocal
 from typing import Annotated
 from .auth import get_current_user
 from passlib.context import CryptContext
+from fastapi import Body
 
 router=APIRouter(
     prefix='/user',
@@ -36,7 +37,7 @@ async def get_users(user:user_dependency,db:db_dependency):
     return db.query(Users).filter(Users.id==user.get('id')).first()
 
 @router.put('/password',status_code=status.HTTP_204_NO_CONTENT)
-async def change_password(user:user_dependency,db:db_dependency,user_verification:UserVerification):
+async def change_password(user:user_dependency,db:db_dependency,user_verification:UserVerification=Body(...)):
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail='Authentication Failure')
     user_model=db.query(Users).filter(Users.id==user.get('id')).first()
