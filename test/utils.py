@@ -3,7 +3,7 @@ from sqlalchemy.pool import StaticPool
 from sqlalchemy.orm import sessionmaker
 from database import Base
 import pytest 
-from utils import *
+from models import Todos
 
 SQLALCHEMY_DATABASE_URL="sqlite:///./testdb.db"
 
