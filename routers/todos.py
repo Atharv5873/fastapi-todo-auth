@@ -73,7 +73,7 @@ async def create_todo(user:user_dependency,
 async def update_todos(user:user_dependency,
                        db:db_dependency,
                        todo_request:TodoRequest,
-                       todo_id=Path(gt=0)):
+                       todo_id:int=Path(gt=0)):
     if user is None:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED,detail='Authentication Failure')
     todo_model=db.query(Todos).filter(Todos.id==todo_id).filter(Todos.owner_id==user.get('id')).first()

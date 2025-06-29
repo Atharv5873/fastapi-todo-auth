@@ -103,3 +103,22 @@ def test_create_todo(test_todo):
     assert model.description == request_data.get('description')
     assert model.complete == request_data.get('complete')
     assert model.priority == request_data.get('priority')
+    
+def test_update_todo(test_todo):
+    request_data={
+        'title':'changed todo',
+        'description':'changed todo',
+        'priority':5,
+        'complete':True
+    }
+    
+    responce=client.put('/todos/update_todo/1',json=request_data)
+    assert responce.status_code==204
+    db=TestingSessionLocal()
+    model=db.query(Todos).filter(Todos.id==1).first()
+    assert model.title == request_data.get('title')
+    assert model.description == request_data.get('description')
+    assert model.complete == request_data.get('complete')
+    assert model.priority == request_data.get('priority')
+    
+
