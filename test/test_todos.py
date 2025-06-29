@@ -121,4 +121,30 @@ def test_update_todo(test_todo):
     assert model.complete == request_data.get('complete')
     assert model.priority == request_data.get('priority')
     
-
+def test_update_todo_not_found(test_todo):
+    request_data={
+        'title':'changed todo',
+        'description':'changed todo',
+        'priority':5,
+        'complete':True
+    }
+    
+    responce=client.put('/todos/update_todo/999',json=request_data)
+    assert responce.status_code==404
+    assert responce.json()=={
+  "detail": "Todo Not found"
+}
+    
+def test_delete_todo(test_todo):
+    responce=client.delete('/todos/1')
+    assert responce.status_code==204
+    db=TestingSessionLocal()
+    model=db.query(Todos).filter(Todos.id==1).first()
+    assert model is None
+    
+def test_delete_todo_not_found(test_todo):
+    responce=client.delete('/todos/999')
+    assert responce.status_code==404
+    assert responce.json()=={
+  "detail": "Todo Not found"
+}
