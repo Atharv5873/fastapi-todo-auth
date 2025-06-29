@@ -25,7 +25,7 @@ def override_get_db():
         db.close()
 
 def override_get_current_user():
-    return {'username':'atharv','id':1,'role':'admin'}  
+    return {'username':'atharv','id':1,'user_role':'admin'}  
 
 @pytest.fixture
 def test_todo():
