@@ -68,4 +68,21 @@ def test_read_all_authenticated(test_todo):
   }
 ]
 
+def test_read_one_authenticated(test_todo):
+    responce=client.get("/todo/1")
+    assert responce.status_code == status.HTTP_200_OK
+    assert responce.json()=={
+    "id": 1,
+    "title": "Learn to code",
+    "description": "nil",
+    "priority": 5,
+    "complete": False,
+    "owner_id": 1
+    }
 
+def test_read_one_authenticated_not_found():
+    responce=client.get("/todo/999")
+    assert responce.status_code==status.HTTP_404_NOT_FOUND
+    assert responce.json()=={
+  "detail": "TODO not found"
+}
